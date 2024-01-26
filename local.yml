@@ -1,0 +1,51 @@
+version: '3'
+
+volumes:
+  astrochart_local_postgres_data: {}
+  astrochart_local_postgres_data_backups: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: astrochart_local_django
+    container_name: astrochart_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - '8000:8000'
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: astrochart_production_postgres
+    container_name: astrochart_local_postgres
+    volumes:
+      - astrochart_local_postgres_data:/var/lib/postgresql/data
+      - astrochart_local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+
+  docs:
+    image: astrochart_local_docs
+    container_name: astrochart_local_docs
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./astrochart:/app/astrochart:z
+    ports:
+      - '9000:9000'
+    command: /start-docs

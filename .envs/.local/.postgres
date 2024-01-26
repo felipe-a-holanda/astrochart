@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=astrochart
+POSTGRES_USER=bbKZyAdASTVxJYVdMEUSKYuYyJIkvXyO
+POSTGRES_PASSWORD=gQUzZcRtwk3V7IBpEupJP4WSrsVqfyUkPNeQwkU5rftFp8f2n1i0K5UA4MXgM5Ci
